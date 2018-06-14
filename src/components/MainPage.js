@@ -17,9 +17,10 @@ class MainPage extends Component {
   nextIteration = (iterator = i => i + 1) => iterator(this.props.data.currentSlide) % slidersData.slider.length
 
   setTimer = () => {
-    this.timer = setInterval(()=>{
-      this.props.setCurrentSlide(this.nextIteration());
-    }, 4000);
+    this.timer = setInterval(
+      () => this.props.setCurrentSlide(this.nextIteration()),
+      10000
+    );
   }
 
   handleClickNext = () => {
@@ -35,16 +36,22 @@ class MainPage extends Component {
     );
   }
 
-  changeSlide = index => {
-    this.props.setCurrentSlide(index);
-    this.setTimer();
-  }
+  changeSlide = index => this.props.setCurrentSlide(index)
+
+  pauseSetInterval = () => clearTimeout(this.timer)
+
+  continueSetInterval = () => this.setTimer()
 
   render() {
     const { data, currentSlide } = this.props.data;
     if (!data.length) return null;
     return (
-      <div className="slideshow-container" style={{backgroundImage: `url(${data[currentSlide].hero}`}}>
+      <div 
+        className="slideshow-container" 
+        style={{backgroundImage: `url(${data[currentSlide].hero}`}}
+        onMouseEnter={this.pauseSetInterval}
+        onMouseLeave={this.continueSetInterval}
+      >
         <div className="small-image">
           <img src={data[currentSlide].image} alt="" />
         </div>  
