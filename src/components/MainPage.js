@@ -16,12 +16,11 @@ class MainPage extends Component {
 
   nextIteration = (iterator = i => i + 1) => iterator(this.props.data.currentSlide) % slidersData.slider.length
 
-  setTimer = () => {
+  setTimer = () => 
     this.timer = setInterval(
       () => this.props.setCurrentSlide(this.nextIteration()),
       10000
     );
-  }
 
   handleClickNext = () => {
     clearTimeout(this.timer)
@@ -67,8 +66,7 @@ class MainPage extends Component {
 
 const mapStateToProps = state => ({ data: state.data })
 
-function matchDispatchToProps(dispatch){
-  return bindActionCreators({ setData, setCurrentSlide }, dispatch);
-}
+const matchDispatchToProps = dispatch => 
+  bindActionCreators({ setData, setCurrentSlide }, dispatch)
 
 export default (connect(mapStateToProps, matchDispatchToProps)(MainPage));
